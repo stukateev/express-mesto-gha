@@ -5,7 +5,7 @@ const { PORT = 3000, DB_PATH = 'mongodb://127.0.0.1:27017/mestodb ' } =   proces
 const app = express()
 const userRouter = require('./routes/users')
 const cardRouter = require('./routes/cards')
-
+const {NOT_FOUND} =
 app.use(bodyParser.json())
 app.use((req, res, next) => {
   req.user = {
@@ -16,9 +16,6 @@ app.use((req, res, next) => {
 app.use(userRouter);
 app.use(cardRouter);
 
-app.use((req, res) => {
-  res.status(NOT_FOUND).send({ message: 'Service not found' })
-});
 
 mongoose.connect(DB_PATH)
 app.listen(PORT, () => {
