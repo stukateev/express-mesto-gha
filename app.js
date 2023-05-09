@@ -16,7 +16,7 @@ app.use((req, res, next) => {
 app.use(userRouter);
 app.use(cardRouter);
 
-app.use('/', (req, res) => {
+app.use((req, res) => {
   res.status(NOT_FOUND).send({ message: 'Service not found' })
 });
 
