@@ -13,7 +13,7 @@ const handleError = (err, res) => {
         .send({ message: 'Card with specified id not found' })
       break
     default:
-      res.status(SERVER_ERROR).send({ message: 'Internal Server Error' })
+      res.status(SERVER_ERROR).send({ message: 'На сервере произошла ошибка' })
       break
   }
 }
