@@ -1,24 +1,8 @@
 const Users = require('../models/user')
-const { BAD_REQUEST, NOT_FOUND, SERVER_ERROR } = require('../utils/errors')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
+const { handleError } = require('../utils/errors')
 
-const handleError = (err, res) => {
-  switch (err.name) {
-    case 'CastError':
-    case 'ValidationError':
-      res.status(BAD_REQUEST).send({ message: 'Invalid data sent' })
-      break
-    case 'DocumentNotFoundError':
-      res
-        .status(NOT_FOUND)
-        .send({ message: 'User with specified id not found' })
-      break
-    default:
-      res.status(SERVER_ERROR).send({ message: 'На сервере произошла ошибка' })
-      break
-  }
-}
 
 const getUsers = (req, res, next) =>
   Users.find({})
