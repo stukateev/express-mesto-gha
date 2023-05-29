@@ -36,7 +36,6 @@ class StatusCodeError extends Error {
 }
 
 const handleError = (err, next) => {
-  console.log(err)
   switch (err.name) {
     case 'CastError':
     case 'ValidationError':
@@ -61,4 +60,12 @@ const handleError = (err, next) => {
   next(err)
 }
 
-module.exports = { BAD_REQUEST, NOT_FOUND, SERVER_ERROR }
+module.exports = {
+  BAD_REQUEST,
+  UNAUTHORIZED,
+  FORBIDDEN,
+  CONFLICT,
+  NOT_FOUND,
+  SERVER_ERROR,
+  handleError,
+  StatusCodeError, }
