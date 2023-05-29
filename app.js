@@ -26,7 +26,7 @@ app.post('/signin', validationLogin, login)
 app.post('/signup', validationCreateUser, createUser)
 
 app.use(auth)
-app.use(errors)
+app.use(errors())
 app.use(errorsHandler)
 app.use(userRouter);
 app.use(cardRouter);
