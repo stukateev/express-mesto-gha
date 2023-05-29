@@ -27,7 +27,7 @@ app.post('/signup', validationCreateUser, createUser)
 
 app.use(auth)
 app.use(routes)
-app.use(errors)
+app.use(errors())
 app.use(errorsHandler)
 app.use(userRouter);
 app.use(cardRouter);
