@@ -1,42 +1,35 @@
 const Cards = require('../models/card')
-const { BAD_REQUEST, NOT_FOUND, SERVER_ERROR } = require('../utils/errors')
+const { handleError, FORBIDDEN, StatusCodeError } = require('../utils/errors')
 
-const handleError = (err, res) => {
-  switch (err.name) {
-    case 'CastError':
-    case 'ValidationError':
-      res.status(BAD_REQUEST).send({ message: 'Invalid data sent' })
-      break
-    case 'DocumentNotFoundError':
-      res
-        .status(NOT_FOUND)
-        .send({ message: 'Card with specified id not found' })
-      break
-    default:
-      res.status(SERVER_ERROR).send({ message: 'На сервере произошла ошибка' })
-      break
-  }
-}
 
-const getCards = (req, res) =>
+
+const getCards = (req, res, next) =>
   Cards.find({})
-    .then((card) => res.status(200).send(card))
-    .catch((err) => handleError(err, res))
+    .then((card) => res.send(card))
+    .catch((err) => handleError(err, next))
 
-const createCard = (req, res) => {
+const createCard = (req, res, next) => {
   const { name, link } = req.body
   const owner = req.user._id
   return Cards.create({ name, link, owner })
-    .then((card) => res.status(200).send(card))
-    .catch((err) => handleError(err, res))
+    .then((card) => res.status(201).send(card))
+    .catch((err) => handleError(err, next))
 }
 
-const deleteCard = (req, res) => {
+const deleteCard = (req, res, next) => {
   const { cardId } = req.params
-  return Cards.findByIdAndRemove(cardId)
+  return Cards.findById(cardId)
     .orFail()
-    .then((deletedCard) => res.status(200).send(deletedCard)).s
+    .then((card) => res.send(card))
     .catch((err) => handleError(err, res))
+    .then((card) => {
+      if (card.owner.toString() === req.user._id)
+        Cards.findByIdAndRemove(cardId)
+          .orFail()
+          .then((card) => res.send(card))
+      else throw new StatusCodeError(FORBIDDEN)
+    })
+    .catch((err) => handleError(err, next))
 }
 
 const toggleLike = ( req, res,  next, isLiked = true) => {
@@ -49,8 +42,8 @@ const toggleLike = ( req, res,  next, isLiked = true) => {
     { new: true }
   )
     .orFail()
-    .then((card) => res.status(200).send(card))
-    .catch((err) => handleError(err, res))
+    .then((card) => res.send(card))
+    .catch((err) => handleError(err, next))
 }
 
 module.exports = {
