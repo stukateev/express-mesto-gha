@@ -1,5 +1,7 @@
 const Users = require('../models/user')
 const { BAD_REQUEST, NOT_FOUND, SERVER_ERROR } = require('../utils/errors')
+const bcrypt = require('bcryptjs')
+const jwt = require('jsonwebtoken')
 
 const handleError = (err, res) => {
   switch (err.name) {
@@ -18,10 +20,10 @@ const handleError = (err, res) => {
   }
 }
 
-const getUsers = (req, res) =>
+const getUsers = (req, res, next) =>
   Users.find({})
     .then((users) => res.status(200).send(users))
-    .catch((err) => handleError(err, res))
+    .catch((err) => handleError(err, next))
 
 const getUser = (req, res) => {
   const { userId } = req.params
@@ -33,14 +35,24 @@ const getUser = (req, res) => {
     .catch((err) => handleError(err, res))
 }
 
-const createUser = (req, res) => {
-  const { name, about, avatar } = req.body
-  return Users.create({ name, about, avatar })
-    .then((user) => res.status(200).send(user))
-    .catch((err) => handleError(err, res))
+const createUser = (req, res, next) => {
+  const { name, about, avatar, email, password } = req.body
+  return bcrypt
+    .hash(password, 10)
+    .then((hash) =>
+      Users.create({ name, about, avatar, email, password: hash })
+    )
+    .then((user) => res.status(201).send(
+      {name: user.name,
+      about: user.about,
+      avatar: user.avatar,
+      email: user.email}
+
+))
+    .catch((err) => handleError(err, next))
 }
 
-const updateProfile = (req, res) => {
+const updateProfile = (req, res, next) => {
   const { name, about } = req.body
   return Users.findByIdAndUpdate(
     req.user._id,
@@ -49,10 +61,10 @@ const updateProfile = (req, res) => {
   )
     .orFail()
     .then((user) => res.status(200).send(user))
-    .catch((err) => handleError(err, res))
+    .catch((err) => handleError(err, next))
 }
 
-const updateAvatar = (req, res) => {
+const updateAvatar = (req, res, next) => {
   const { avatar } = req.body
   return Users.findByIdAndUpdate(
     req.user._id,
@@ -61,13 +73,45 @@ const updateAvatar = (req, res) => {
   )
     .orFail()
     .then((user) => res.status(200).send(user))
-    .catch((err) => handleError(err, res))
+    .catch((err) => handleError(err, next))
 }
 
+const getCurrentUser = (req, res, next) => {
+  return Users.findById(req.user._id)
+    .orFail()
+    .then((user) => res.send(user))
+    .catch((err) => handleError(err, next))
+}
+
+const login = (req, res, next) => {
+  const {email, password} = req.body
+  const {NODE_ENV, JWT_SECRET} = process.env
+
+  return Users.findUserByCredentials(email, password)
+    .then((user) => {
+      const token = jwt.sign(
+        {_id: user._id},
+        NODE_ENV === 'production'
+          ? JWT_SECRET
+          : '1ce9ec7dd68836579e4ffcb80e1ea34ae6e9707c6b36a0c247e501d339a5ec0b',
+        {expiresIn: '7d'}
+      )
+      res
+        .cookie('jwt', token, {
+          maxAge: 3600000 * 24 * 7,
+          httpOnly: true,
+          sameSite: true,
+        })
+        .send({message: `Welcome back, ${user.name}`})
+    })
+    .catch((err) => handleError(err, next))
+}
 module.exports = {
   getUsers,
   getUser,
   createUser,
   updateProfile,
   updateAvatar,
+  getCurrentUser,
+  login,
 }

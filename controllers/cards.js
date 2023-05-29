@@ -35,11 +35,11 @@ const deleteCard = (req, res) => {
   const { cardId } = req.params
   return Cards.findByIdAndRemove(cardId)
     .orFail()
-    .then((card) => res.status(200).send(card))
+    .then((deletedCard) => res.status(200).send(deletedCard)).s
     .catch((err) => handleError(err, res))
 }
 
-const toggleLike = ( req, res,  isLiked = true) => {
+const toggleLike = ( req, res,  next, isLiked = true) => {
   const { cardId } = req.params
   return Cards.findByIdAndUpdate(
     cardId,

@@ -1,18 +1,21 @@
 const router = require('express').Router()
-const {NOT_FOUND} = require('../utils/errors')
 const {
   getCards,
   createCard,
   deleteCard,
   toggleLike,
 } = require('../controllers/cards')
+const {
+  validationCreateCard,
+  validationCardId,
+} = require('../middlewares/validations')
 
 router.get('/cards/', getCards)
-router.post('/cards/', createCard)
-router.delete('/cards/:cardId', deleteCard)
-router.put('/cards/:cardId/likes', toggleLike)
-router.delete('/cards/:cardId/likes', (req, res) => toggleLike(req, res, false))
-router.use((req, res) => {
-  res.status(NOT_FOUND).send({ message: 'Service not found' })
-})
+router.post('/', validationCreateCard, createCard)
+router.delete('/:cardId', validationCardId, deleteCard)
+router.put('/:cardId/likes', validationCardId, toggleLike)
+router.delete('/:cardId/likes', validationCardId, (req, res, next) =>
+  toggleLike(req, res, next,false)
+)
+
 module.exports = router
