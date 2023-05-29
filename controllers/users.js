@@ -42,13 +42,7 @@ const createUser = (req, res, next) => {
     .then((hash) =>
       Users.create({ name, about, avatar, email, password: hash })
     )
-    .then((user) => res.status(201).send(
-      {name: user.name,
-      about: user.about,
-      avatar: user.avatar,
-      email: user.email}
-
-))
+    .then((user) => res.status(201).send(user))
     .catch((err) => handleError(err, next))
 }
 
