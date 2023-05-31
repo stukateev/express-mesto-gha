@@ -10,20 +10,16 @@ const userSchema = new mongoose.Schema({
     required: true,
     minlength: 2,
     maxlength: 30,
-    default: 'Жак-Ив Кусто',
   },
   about: {
     type: String,
     required: true,
     minlength: 2,
     maxlength: 30,
-    default: 'Исследователь',
   },
   avatar: {
     type: String,
     required: true,
-    default:
-      'https://proprikol.ru/wp-content/uploads/2020/12/kartinki-ryabchiki-28.jpg',
     validate: {
       validator: (url) => reIsUrl.test(url),
       message: 'Некорректный URL',
