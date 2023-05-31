@@ -20,8 +20,6 @@ const deleteCard = (req, res, next) => {
   const { cardId } = req.params
   return Cards.findById(cardId)
     .orFail()
-    .then((card) => res.send(card))
-    .catch((err) => handleError(err, res))
     .then((card) => {
       if (card.owner.toString() === req.user._id)
         Cards.findByIdAndRemove(cardId)
@@ -36,14 +34,10 @@ const toggleLike = ( req, res,  next, isLiked = true) => {
   const { cardId } = req.params
   return Cards.findByIdAndUpdate(
     cardId,
-    isLiked
-      ? { $addToSet: { likes: req.user._id } }
-      : { $pull: { likes: req.user._id } },
-    { new: true }
   )
-    .orFail()
-    .then((card) => res.send(card))
-    .catch((err) => handleError(err, next))
+  .orFail()
+      .then((card) => res.send(card))
+      .catch((err) => handleError(err, next))
 }
 
 module.exports = {
