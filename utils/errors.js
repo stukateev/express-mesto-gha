@@ -42,7 +42,7 @@ const handleError = (err, next) => {
       next(new StatusCodeError(BAD_REQUEST))
       return
     case 'DocumentNotFoundError':
-      next(new StatusCodeError(NOT_FOUND, 'Пользователь с указанным id не найден'))
+      next(new StatusCodeError(NOT_FOUND, 'Item with specified id not found'))
       return
     case 'MongoServerError':
       if (err.code === 11000)

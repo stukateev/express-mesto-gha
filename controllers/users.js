@@ -9,14 +9,14 @@ const getUsers = (req, res, next) =>
     .then((users) => res.status(200).send(users))
     .catch((err) => handleError(err, next))
 
-const getUser = (req, res) => {
+const getUser = (req, res, next) => {
   const { userId } = req.params
   return Users.findById(userId)
     .orFail()
     .then((user) => {
       res.send(user)
     })
-    .catch((err) => handleError(err, res))
+    .catch((err) => handleError(err, next))
 }
 
 const createUser = (req, res, next) => {
