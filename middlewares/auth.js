@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken')
 const { UNAUTHORIZED, StatusCodeError } = require('../utils/errors')
 
+
 module.exports = (req, res, next) => {
   let token = ''
   if (req.cookies.jwt !== undefined) {

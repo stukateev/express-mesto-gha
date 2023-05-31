@@ -4,7 +4,7 @@ const mongoose = require('mongoose')
 const cookieParser = require('cookie-parser')
 const { errors } = require('celebrate')
 const routes = require('./routes')
-
+require('dotenv').config();
 const { PORT = 3000, DB_PATH = 'mongodb://127.0.0.1:27017/mestodb ' } =   process.env
 const app = express()
 
