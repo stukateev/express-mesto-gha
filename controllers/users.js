@@ -14,8 +14,7 @@ const getUser = (req, res) => {
   return Users.findById(userId)
     .orFail()
     .then((user) => {
-      res.status(200).send(user)
-
+      res.send(user)
     })
     .catch((err) => handleError(err, res))
 }
@@ -68,7 +67,7 @@ const updateAvatar = (req, res, next) => {
 const getCurrentUser = (req, res, next) => {
   return Users.findById(req.user._id)
     .orFail()
-    .then((user) => res.status(200).send(user))
+    .then((user) => res.send(user))
     .catch((err) => handleError(err, next))
 }
 
