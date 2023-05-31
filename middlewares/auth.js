@@ -16,7 +16,7 @@ module.exports = (req, res, next) => {
   const { NODE_ENV, JWT_SECRET } = process.env
   let payload
   try {
-    payload =JWT_SECRET(
+    payload =jwt.verify(
       token,
       NODE_ENV === 'production'
         ? JWT_SECRET
