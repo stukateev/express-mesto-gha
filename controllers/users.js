@@ -119,7 +119,7 @@ const login = (req, res, next) => {
     .catch((err) => {
       handleError(err, next);
     });
-}
+};
 
 module.exports = {
   getUsers,
