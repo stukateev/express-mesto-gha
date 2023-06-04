@@ -3,7 +3,7 @@ const CONFLICT = require('./ConflictError');
 const FORBIDDEN = require('./ForbiddenError');
 const NOT_FOUND = require('./NotFoundError');
 const SERVER_ERROR = require('./ServerError');
-const UNAUTHORIZED = require('./UnauthorizedError');
+const {UnauthorizedError} = require('./UnauthorizedError');
 
 const handleError = (err, next) => {
   switch (err.name) {
@@ -29,7 +29,7 @@ const handleError = (err, next) => {
 
 module.exports = {
   BAD_REQUEST,
-  UNAUTHORIZED,
+  UnauthorizedError,
   FORBIDDEN,
   CONFLICT,
   NOT_FOUND,
