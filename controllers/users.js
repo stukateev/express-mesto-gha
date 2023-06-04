@@ -1,6 +1,6 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const { handleError } = require('../utils/errors');
+const { handleError, CONFLICT } = require('../utils/errors');
 const Users = require('../models/user');
 
 const getUsers = (req, res, next) => {
@@ -26,7 +26,7 @@ const getUser = (req, res, next) => {
 };
 
 const createUser = (req, res, next) => {
-  const { name, about, avatar, email, password } = req.body;
+  const {name, about, avatar, email, password} = req.body;
   return bcrypt
     .hash(password, 10)
     .then((hash) =>
@@ -48,8 +48,10 @@ const createUser = (req, res, next) => {
       })
     )
     .catch((err) => {
-      handleError(err, next);
-    });
+      if (err.code === 11000) {
+        next(new CONFLICT("E-mail уже зарегестрирован"));
+      }
+    })
 };
 
 const updateProfile = (req, res, next) => {
