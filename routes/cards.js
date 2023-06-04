@@ -10,7 +10,7 @@ const {
   validationCardId,
 } = require('../middlewares/validations')
 
-router.get('/cards/', getCards)
+router.get('/', getCards)
 router.post('/', validationCreateCard, createCard)
 router.delete('/:cardId', validationCardId, deleteCard)
 router.put('/:cardId/likes', validationCardId, toggleLike)
