@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
-const isEmail = require('validator/lib/isEmail');
-const isURL = require('validator/lib/isURL');
+const validator = require('validator');
 const bcrypt = require('bcryptjs');
 const { UNAUTHORIZED, StatusCodeError } = require('../utils/errors');
 const { reIsUrl } = require('../middlewares/validations');
@@ -29,7 +28,7 @@ const userSchema = new mongoose.Schema(
           message: 'Некорректный URL',
         },
         {
-          validator: (url) => isURL(url),
+          validator: (url) => validator.isURL(url),
           message: 'Некорректный URL',
         },
       ],
@@ -39,7 +38,7 @@ const userSchema = new mongoose.Schema(
       required: true,
       unique: true,
       validate: {
-        validator: (email) => isEmail(email),
+        validator: (email) => validator.isEmail(email),
         message: 'Некорректный адрес почты',
       },
     },
