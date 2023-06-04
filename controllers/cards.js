@@ -1,5 +1,5 @@
 const Cards = require('../models/card')
-const { handleError, FORBIDDEN, StatusCodeError } = require('../utils/errors')
+const { handleError, FORBIDDEN } = require('../utils/errors')
 
 
 
@@ -25,7 +25,7 @@ const deleteCard = (req, res, next) => {
         Cards.findByIdAndRemove(cardId)
           .orFail()
           .then((deletedCard) => res.send(deletedCard))
-      else throw new StatusCodeError(FORBIDDEN)
+      else throw FORBIDDEN
     })
     .catch((err) => handleError(err, next))
 }

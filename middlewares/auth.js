@@ -7,7 +7,6 @@ module.exports = (req, res, next) => {
   if (req.cookies.jwt !== undefined) {
     token = req.cookies.jwt
   } else {
-    const { authorization } = req.headers
     if (!authorization || !authorization.startsWith('Bearer ')) {
       throw new StatusCodeError(UNAUTHORIZED)
     }

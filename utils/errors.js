@@ -1,58 +1,26 @@
-const BAD_REQUEST = 400
-const NOT_FOUND = 404
-const CONFLICT = 409
-const UNAUTHORIZED = 401
-const FORBIDDEN = 403
-const SERVER_ERROR = 500
-class StatusCodeError extends Error {
-  constructor(statusCode, message = '') {
-    let msg = message
-    if (message.length === 0)
-      switch (statusCode) {
-        case BAD_REQUEST:
-          msg = 'Invalid data sent'
-          break
-        case UNAUTHORIZED:
-          msg = 'Authorization required'
-          break
-        case FORBIDDEN:
-          msg = 'Access denied'
-          break
-        case NOT_FOUND:
-          msg = 'Service not found'
-          break
-        case CONFLICT:
-          msg = 'User with this email is already registered'
-          break
-        case SERVER_ERROR:
-          msg = 'Internal Server Error'
-          return
-        default:
-          break
-      }
-    super(msg)
-    this.statusCode = statusCode
-  }
-}
+const  BAD_REQUEST = require('../utils/BadRequestError')
+const  CONFLICT = require('../utils/ConflictError')
+const  FORBIDDEN = require('../utils/ForbiddenError')
+const  NOT_FOUND = require('../utils/NotFoundError')
+const  SERVER_ERROR = require('../utils/ServerError')
+const  UNAUTHORIZED = require('../utils/UnauthorizedError')
+
 
 const handleError = (err, next) => {
   switch (err.name) {
     case 'CastError':
     case 'ValidationError':
-      next(new StatusCodeError(BAD_REQUEST))
+      next(BAD_REQUEST)
       return
     case 'DocumentNotFoundError':
-      next(new StatusCodeError(NOT_FOUND, 'Item with specified id not found'))
+      next(NOT_FOUND('Item with specified id not found'))
       return
     case 'MongoServerError':
       if (err.code === 11000)
         next(
-          new StatusCodeError(
-            CONFLICT,
-            'User with this email is already registered'
-          )
+            CONFLICT('User with this email is already registered')
         )
-      else next(SERVER_ERROR, 'Mongo Server Error')
+      else next(SERVER_ERROR('Mongo Server Error'))
       return
     default:
       break
@@ -67,5 +35,4 @@ module.exports = {
   CONFLICT,
   NOT_FOUND,
   SERVER_ERROR,
-  handleError,
-  StatusCodeError, }
+  handleError, }
