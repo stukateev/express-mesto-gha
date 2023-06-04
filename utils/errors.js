@@ -12,13 +12,13 @@ const handleError = (err, next) => {
       next(BAD_REQUEST);
       return;
     case 'DocumentNotFoundError':
-      next(NOT_FOUND('Item with specified id not found'));
+      next(new NOT_FOUND('Item with specified id not found'));
       return;
     case 'MongoServerError':
       if (err.code === 11000) {
-        next(CONFLICT('User with this email is already registered'));
+        next(new CONFLICT('User with this email is already registered'));
       } else {
-        next(SERVER_ERROR('Mongo Server Error'));
+        next( new SERVER_ERROR('Mongo Server Error'));
       }
       return;
     default:
