@@ -30,6 +30,4 @@ app.use(errorsHandler);
 
 mongoose.connect(DB_PATH);
 
-app.listen(PORT, () => {
-  console.log(`App listening on port ${PORT}`);
-});
+app.listen(PORT);
