@@ -5,8 +5,12 @@ const Users = require('../models/user');
 
 const getUsers = (req, res, next) => {
   Users.find({})
-    .then((users) => res.status(200).send(users))
-    .catch((err) => handleError(err, next));
+    .then((users) => {
+      res.status(200).send(users);
+    })
+    .catch((err) => {
+      handleError(err, next);
+    });
 };
 
 const getUser = (req, res, next) => {
@@ -16,7 +20,9 @@ const getUser = (req, res, next) => {
     .then((user) => {
       res.send(user);
     })
-    .catch((err) => handleError(err, next));
+    .catch((err) => {
+      handleError(err, next);
+    });
 };
 
 const createUser = (req, res, next) => {
@@ -41,7 +47,9 @@ const createUser = (req, res, next) => {
         email: user.email,
       })
     )
-    .catch((err) => handleError(err, next));
+    .catch((err) => {
+      handleError(err, next);
+    });
 };
 
 const updateProfile = (req, res, next) => {
@@ -52,8 +60,12 @@ const updateProfile = (req, res, next) => {
     { new: true, runValidators: true }
   )
     .orFail()
-    .then((user) => res.status(200).send(user))
-    .catch((err) => handleError(err, next));
+    .then((user) => {
+      res.status(200).send(user);
+    })
+    .catch((err) => {
+      handleError(err, next);
+    });
 };
 
 const updateAvatar = (req, res, next) => {
@@ -64,15 +76,23 @@ const updateAvatar = (req, res, next) => {
     { new: true, runValidators: true }
   )
     .orFail()
-    .then((user) => res.status(200).send(user))
-    .catch((err) => handleError(err, next));
+    .then((user) => {
+      res.status(200).send(user);
+    })
+    .catch((err) => {
+      handleError(err, next);
+    });
 };
 
 const getCurrentUser = (req, res, next) => {
   return Users.findById(req.user._id)
     .orFail()
-    .then((user) => res.send(user))
-    .catch((err) => handleError(err, next));
+    .then((user) => {
+      res.send(user);
+    })
+    .catch((err) => {
+      handleError(err, next);
+    });
 };
 
 const login = (req, res, next) => {
@@ -96,8 +116,10 @@ const login = (req, res, next) => {
         })
         .send({ message: `Welcome back, ${user.name}` });
     })
-    .catch((err) => handleError(err, next));
-};
+    .catch((err) => {
+      handleError(err, next);
+    });
+}
 
 module.exports = {
   getUsers,
