@@ -1,7 +1,7 @@
 class ForbiddenError extends Error {
   constructor() {
     super();
-    this.message = 'Access denied'
+    this.message = 'Access denied';
     this.statusCode = 403;
   }
 }
