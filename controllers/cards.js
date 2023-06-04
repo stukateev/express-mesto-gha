@@ -24,7 +24,7 @@ const deleteCard = (req, res, next) => {
       if (card.owner.toString() === req.user._id)
         Cards.findByIdAndRemove(cardId)
           .orFail()
-          .then((card) => res.send(card))
+          .then((deleteCard) => res.send(deleteCard))
       else throw new StatusCodeError(FORBIDDEN)
     })
     .catch((err) => handleError(err, next))
