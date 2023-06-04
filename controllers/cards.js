@@ -24,7 +24,7 @@ const deleteCard = (req, res, next) => {
       if (card.owner.toString() === req.user._id)
         Cards.findByIdAndRemove(cardId)
           .orFail()
-          .then((deleteCard) => res.send(deleteCard))
+          .then((deletedCard) => res.send(deletedCard))
       else throw new StatusCodeError(FORBIDDEN)
     })
     .catch((err) => handleError(err, next))
@@ -34,6 +34,10 @@ const toggleLike = ( req, res,  next, isLiked = true) => {
   const { cardId } = req.params
   return Cards.findByIdAndUpdate(
     cardId,
+    isLiked
+      ? { $addToSet: { likes: req.user._id } }
+      : { $pull: { likes: req.user._id } },
+    { new: true }
   )
   .orFail()
       .then((card) => res.send(card))
