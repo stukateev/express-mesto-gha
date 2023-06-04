@@ -25,7 +25,7 @@ const deleteCard = (req, res, next) => {
           .orFail()
           .then((deletedCard) => res.send(deletedCard));
       } else {
-        throw FORBIDDEN;
+        throw new FORBIDDEN;
       }
     })
     .catch((err) => handleError(err, next));
