@@ -3,7 +3,7 @@ const CONFLICT = require('./ConflictError');
 const FORBIDDEN = require('./ForbiddenError');
 const NOT_FOUND = require('./NotFoundError');
 const SERVER_ERROR = require('./ServerError');
-const {UnauthorizedError} = require('./UnauthorizedError');
+const UnauthorizedError = require('./UnauthorizedError');
 
 const handleError = (err, next) => {
   switch (err.name) {
