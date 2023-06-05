@@ -34,5 +34,5 @@ module.exports = {
   CONFLICT,
   NOT_FOUND,
   SERVER_ERROR,
-  handleError
+  handleError,
 };
