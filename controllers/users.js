@@ -26,7 +26,7 @@ const getUser = (req, res, next) => {
 };
 
 const createUser = (req, res, next) => {
-  const {name, about, avatar, email, password} = req.body;
+  const { name, about, avatar, email, password } = req.body;
   return bcrypt
     .hash(password, 10)
     .then((hash) =>
@@ -49,9 +49,9 @@ const createUser = (req, res, next) => {
     )
     .catch((err) => {
       if (err.code === 11000) {
-        next(new CONFLICT("E-mail уже зарегестрирован"));
+        next(new CONFLICT("E-mail уже зарегистрирован"));
       }
-    })
+    });
 };
 
 const updateProfile = (req, res, next) => {
