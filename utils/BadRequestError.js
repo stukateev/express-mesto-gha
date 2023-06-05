@@ -1,10 +1,9 @@
 class BadRequestError extends Error {
-  constructor() {
-
-    super();
+  constructor () {
+    super()
     this.message = 'Invalid data sent'
-    this.statusCode = 400;
+    this.statusCode = 400
   }
 }
 
-module.exports = BadRequestError;
+module.exports = BadRequestError
