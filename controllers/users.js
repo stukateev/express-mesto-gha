@@ -93,7 +93,7 @@ const getCurrentUser = (req, res, next) => Users.findById(req.user._id)
   .then((user) => res.send(user))
   .catch((err) => {
     handleError(err, next);
-  },)
+  });
 
 const login = (req, res, next) => {
   const { email, password } = req.body;
