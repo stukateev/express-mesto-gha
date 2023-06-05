@@ -36,13 +36,15 @@ const createUser = (req, res, next) => {
   return bcrypt
     .hash(password, 10)
     .then((hash) =>
-      Users.create({
+      Users.create(
+        {
         name,
         about,
         avatar,
         email,
         password: hash,
-      },)
+      },
+        ),
     )
     .then((user) =>
       res.status(201).send({
@@ -51,7 +53,8 @@ const createUser = (req, res, next) => {
         about: user.about,
         avatar: user.avatar,
         email: user.email,
-      },)
+      },
+        ),
     )
     .catch((err) => {
       if (err.code === 11000) {
