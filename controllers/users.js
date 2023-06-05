@@ -31,7 +31,7 @@ const createUser = (req, res, next) => {
     about,
     avatar,
     email,
-    password
+    password,
   } = req.body;
   return bcrypt
     .hash(password, 10)
@@ -40,7 +40,7 @@ const createUser = (req, res, next) => {
       about,
       avatar,
       email,
-      password: hash
+      password: hash,
     }))
     .then((user) => {
       res.status(201).send({
@@ -48,7 +48,7 @@ const createUser = (req, res, next) => {
         name: user.name,
         about: user.about,
         avatar: user.avatar,
-        email: user.email
+        email: user.email,
       });
     })
     .catch((err) => {
@@ -61,7 +61,7 @@ const updateProfile = (req, res, next) => {
   return Users.findByIdAndUpdate(
     req.user._id,
     { name, about },
-    { new: true, runValidators: true }
+    { new: true, runValidators: true },
   )
     .orFail()
     .then((user) => {
@@ -77,7 +77,7 @@ const updateAvatar = (req, res, next) => {
   return Users.findByIdAndUpdate(
     req.user._id,
     { avatar },
-    { new: true, runValidators: true }
+    { new: true, runValidators: true },
   )
     .orFail()
     .then((user) => {
@@ -110,13 +110,13 @@ const login = (req, res, next) => {
         NODE_ENV === 'production'
           ? JWT_SECRET
           : '1ce9ec7dd68836579e4ffcb80e1ea34ae6e9707c6b36a0c247e501d339a5ec0b',
-        { expiresIn: '7d' }
+        { expiresIn: '7d' },
       );
       res
         .cookie('jwt', token, {
           maxAge: 3600000 * 24 * 7,
           httpOnly: true,
-          sameSite: true
+          sameSite: true,
         })
         .send({ message: `Welcome back, ${user.name}` });
     })
