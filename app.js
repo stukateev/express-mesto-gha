@@ -14,7 +14,7 @@ const errorsHandler = require('./middlewares/handleError');
 const { createUser, login } = require('./controllers/users');
 const {
   validationCreateUser,
-  validationLogin
+  validationLogin,
 } = require('./middlewares/validations');
 
 app.use(bodyParser.json());

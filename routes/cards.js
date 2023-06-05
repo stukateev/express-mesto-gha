@@ -15,6 +15,6 @@ router.post('/', validationCreateCard, createCard);
 router.delete('/:cardId', validationCardId, deleteCard);
 router.put('/:cardId/likes', validationCardId, toggleLike);
 router.delete('/:cardId/likes', validationCardId, (req, res, next) =>
-  toggleLike(req, res, next, false),);
+  toggleLike(req, res, next, false));
 
 module.exports = router;

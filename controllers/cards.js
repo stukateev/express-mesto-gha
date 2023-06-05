@@ -38,7 +38,7 @@ const toggleLike = (req, res, next, isLiked = true) => {
     isLiked
       ? { $addToSet: { likes: req.user._id } }
       : { $pull: { likes: req.user._id } },
-    { new: true }
+    { new: true },
   )
     .orFail()
     .then((card) => res.send(card))
@@ -49,5 +49,5 @@ module.exports = {
   getCards,
   createCard,
   deleteCard,
-  toggleLike
+  toggleLike,
 };
