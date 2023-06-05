@@ -89,11 +89,11 @@ const updateAvatar = (req, res, next) => {
 };
 
 const getCurrentUser = (req, res, next) => Users.findById(req.user._id)
-    .orFail()
-    .then((user) => res.send(user))
-    .catch((err) => {
-      handleError(err, next);
-    })
+  .orFail()
+  .then((user) => res.send(user))
+  .catch((err) => {
+    handleError(err, next);
+  },)
 
 const login = (req, res, next) => {
   const { email, password } = req.body;
