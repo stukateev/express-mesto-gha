@@ -1,6 +1,6 @@
-const mongoose = require('mongoose')
-const { reIsUrl } = require('../middlewares/validations')
-const validator = require('validator')
+const mongoose = require('mongoose');
+const { reIsUrl } = require('../middlewares/validations');
+const validator = require('validator');
 
 const cardSchema = new mongoose.Schema({
   name: {
@@ -38,6 +38,6 @@ const cardSchema = new mongoose.Schema({
     type: Date,
     default: Date.now
   }
-})
+});
 
-module.exports = mongoose.model('card', cardSchema)
+module.exports = mongoose.model('card', cardSchema);

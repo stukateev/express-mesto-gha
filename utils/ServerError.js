@@ -1,9 +1,9 @@
 class ServerError extends Error {
   constructor () {
-    super()
-    this.message = 'Internal Server Error'
-    this.statusCode = 500
+    super();
+    this.message = 'Internal Server Error';
+    this.statusCode = 500;
   }
 }
 
-module.exports = ServerError
+module.exports = ServerError;
