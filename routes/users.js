@@ -4,12 +4,12 @@ const {
   getUser,
   getCurrentUser,
   updateProfile,
-  updateAvatar
+  updateAvatar,
 } = require('../controllers/users');
 const {
   validationUserId,
   validationUpdateUser,
-  validationUpdateAvatar
+  validationUpdateAvatar,
 } = require('../middlewares/validations');
 
 router.get('/', getUsers);

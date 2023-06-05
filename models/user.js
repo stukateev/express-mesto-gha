@@ -10,13 +10,13 @@ const userSchema = new mongoose.Schema(
       type: String,
       minlength: 2,
       maxlength: 30,
-      default: 'Жак-Ив Кусто'
+      default: 'Жак-Ив Кусто',
     },
     about: {
       type: String,
       minlength: 2,
       maxlength: 30,
-      default: 'Исследователь'
+      default: 'Исследователь',
     },
     avatar: {
       type: String,
@@ -25,13 +25,13 @@ const userSchema = new mongoose.Schema(
       validate: [
         {
           validator: (url) => reIsUrl.test(url),
-          message: 'Некорректный URL'
+          message: 'Некорректный URL',
         },
         {
           validator: (url) => validator.isURL(url),
-          message: 'Некорректный URL'
-        }
-      ]
+          message: 'Некорректный URL',
+        },
+      ],
     },
     email: {
       type: String,
@@ -39,32 +39,28 @@ const userSchema = new mongoose.Schema(
       unique: true,
       validate: {
         validator: (email) => validator.isEmail(email),
-        message: 'Некорректный адрес почты'
-      }
+        message: 'Некорректный адрес почты',
+      },
     },
     password: {
       type: String,
       required: true,
-      select: false
-    }
+      select: false,
+    },
   },
   { versionKey: false }
 );
 
-userSchema.statics.findUserByCredentials = function findUserByCredentials (email, password) {
+userSchema.statics.findUserByCredentials = function findUserByCredentials(email, password) {
   return this.findOne({ email })
     .select('+password')
     .then((user) => {
       if (!user) {
-        return Promise.reject(
-          new UnauthorizedError('Invalid email or password')
-        );
+        return Promise.reject(new UnauthorizedError('Invalid email or password'));
       }
       return bcrypt.compare(password, user.password).then((matched) => {
         if (!matched) {
-          return Promise.reject(
-            new UnauthorizedError('Invalid email or password')
-          );
+          return Promise.reject(new UnauthorizedError('Invalid email or password'));
         }
         return user;
       });
