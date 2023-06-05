@@ -7,8 +7,11 @@ module.exports = (req, res, next) => {
   let token = ''
   if (req.cookies.jwt !== undefined) {
     token = req.cookies.jwt
-  } else {
+  } else if (authorization && authorization.startsWith('Bearer ')) {
     token = authorization.replace('Bearer ', '')
+  }
+  if (!token) {
+    throw new UnauthorizedError('Authorization required')
   }
 
   const { NODE_ENV, JWT_SECRET } = process.env
