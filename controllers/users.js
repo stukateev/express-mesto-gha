@@ -1,6 +1,6 @@
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
-const { handleError, CONFLICT } = require('../utils/errors')
+const { handleError } = require('../utils/errors')
 const Users = require('../models/user')
 
 const getUsers = (req, res, next) => {
@@ -52,9 +52,7 @@ const createUser = (req, res, next) => {
       })
     )
     .catch((err) => {
-      if (err.code === 11000) {
-        next(new CONFLICT('E-mail уже зарегистрирован'))
-      }
+      handleError(err, next)
     })
 }
 

@@ -8,9 +8,6 @@ module.exports = (req, res, next) => {
   if (req.cookies.jwt !== undefined) {
     token = req.cookies.jwt
   } else {
-    if (!authorization || !authorization.startsWith('Bearer ')) {
-      throw new UnauthorizedError('Authorization required')
-    }
     token = authorization.replace('Bearer ', '')
   }
 
