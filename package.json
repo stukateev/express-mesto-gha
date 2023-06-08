@@ -20,9 +20,11 @@
   "homepage": "https://github.com/stukateev/express-mesto-gha#readme",
   "devDependencies": {
     "eslint": "^8.42.0",
-    "eslint-plugin-import": "^2.27.5",
     "eslint-config-airbnb-base": "^15.0.0",
-    "nodemon": "^2.0.22"
+    "eslint-plugin-import": "^2.27.5",
+    "express-winston": "^4.2.0",
+    "nodemon": "^2.0.22",
+    "winston": "^3.9.0"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",

@@ -11,6 +11,7 @@ const app = express();
 
 const auth = require('./middlewares/auth');
 const errorsHandler = require('./middlewares/handleError');
+const { errorLogger, requestLogger } = require('./middlewares/loggerHandler');
 const { createUser, login } = require('./controllers/users');
 const {
   validationCreateUser,
@@ -23,10 +24,18 @@ app.use(cookieParser());
 app.post('/signin', validationLogin, login);
 app.post('/signup', validationCreateUser, createUser);
 
+app.use(requestLogger);
 app.use(auth);
 app.use(routes);
 app.use(errors());
+app.use(errorLogger);
 app.use(errorsHandler);
+
+app.get('/crash-test', () => {
+  setTimeout(() => {
+    throw new Error('Сервер сейчас упадёт');
+  }, 0);
+});
 
 mongoose.connect(DB_PATH);
 
