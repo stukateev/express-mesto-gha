@@ -15,15 +15,15 @@ module.exports = (req, res, next) => {
 
   if (allowedCors.includes(origin)) {
     res.header('Access-Control-Allow-Origin', origin);
-    res.header('Access-Control-Allow-Credentials', true)
+    res.header('Access-Control-Allow-Credentials', true);
   }
   const requestHeaders = req.headers['access-control-request-headers'];
 
   if (method === 'OPTIONS') {
     res.header('Access-Control-Allow-Methods', DEFAULT_ALLOWED_METHODS);
     res.header('Access-Control-Allow-Headers', requestHeaders);
-
-    return res.end();
+    res.header('Access-Control-Max-Age', 3600); // Дополнительный заголовок для кэширования результатов предварительной проверки (preflight)
+    return res.status(204).end();
   }
 
   return next();
