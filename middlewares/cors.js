@@ -18,12 +18,11 @@ module.exports = (req, res, next) => {
     res.header('Access-Control-Allow-Credentials', true);
   }
   const requestHeaders = req.headers['access-control-request-headers'];
-
+  console.log(requestHeaders)
   if (method === 'OPTIONS') {
     res.header('Access-Control-Allow-Methods', DEFAULT_ALLOWED_METHODS);
     res.header('Access-Control-Allow-Headers', requestHeaders);
-    res.header('Access-Control-Max-Age', 3600); // Дополнительный заголовок для кэширования результатов предварительной проверки (preflight)
-    return res.status(204).end();
+    return res.end();
   }
 
   return next();
