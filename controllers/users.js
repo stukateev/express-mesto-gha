@@ -113,6 +113,7 @@ const login = (req, res, next) => {
           maxAge: 3600000 * 24 * 7,
           httpOnly: true,
           sameSite: "none",
+          secure: true,
         })
         .json({ message: `Welcome back, ${user.name}` })
         .send(user);
