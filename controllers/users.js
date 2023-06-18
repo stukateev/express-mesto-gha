@@ -13,6 +13,7 @@ const getUsers = (req, res, next) => {
     });
 };
 
+
 const getUser = (req, res, next) => {
   const { userId } = req.params;
   return Users.findById(userId)
