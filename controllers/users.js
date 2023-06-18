@@ -97,14 +97,28 @@ const getCurrentUser = (req, res, next) => Users.findById(req.user._id)
 
 const login = (req, res, next) => {
   const { email, password } = req.body;
+  const { NODE_ENV, JWT_SECRET } = process.env;
 
-  Users.findUserByCredentials(email, password)
+  return Users.findUserByCredentials(email, password)
     .then((user) => {
-      const token = jwt.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : '1ce9ec7dd68836579e4ffcb80e1ea34ae6e9707c6b36a0c247e501d339a5ec0b', { expiresIn: '7d' });
-      res.cookie('cookie', token, { httpOnly: true });
-      res.send({ token });
+      const token = jwt.sign(
+        { _id: user._id },
+        NODE_ENV === 'production'
+          ? JWT_SECRET
+          : '1ce9ec7dd68836579e4ffcb80e1ea34ae6e9707c6b36a0c247e501d339a5ec0b',
+        { expiresIn: '7d' },
+      );
+      res
+        .cookie('jwt', token, {
+          maxAge: 3600000 * 24 * 7,
+          httpOnly: true,
+          sameSite: true,
+        })
+        .send({ message: `Welcome back, ${user.name}` });
     })
-    .catch(next);
+    .catch((err) => {
+      handleError(err, next);
+    });
 };
 
 module.exports = {
