@@ -13,7 +13,6 @@ const getUsers = (req, res, next) => {
     });
 };
 
-
 const getUser = (req, res, next) => {
   const { userId } = req.params;
   return Users.findById(userId)
@@ -98,7 +97,7 @@ const getCurrentUser = (req, res, next) => Users.findById(req.user._id)
 
 const login = (req, res, next) => {
   const { email, password } = req.body;
-  const { NODE_ENV, JWT_SECRET } = process.env;
+  const { JWT_SECRET } = process.env;
 
   return Users.findUserByCredentials(email, password)
     .then((user) => {
@@ -120,6 +119,14 @@ const login = (req, res, next) => {
     });
 };
 
+const clearCookie = (req, res, next) => {
+  try {
+    res.clearCookie('jwt').send({ message: 'Cookie clear' });
+  } catch (err) {
+    next(err);
+  }
+}
+
 module.exports = {
   getUsers,
   getUser,
@@ -128,4 +135,5 @@ module.exports = {
   updateAvatar,
   getCurrentUser,
   login,
+  clearCookie
 };
