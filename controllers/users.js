@@ -116,7 +116,7 @@ const login = (req, res, next) => {
           secure: true,
         })
         .json({ message: `Welcome back, ${user.name}` })
-        .send(user);
+
     })
     .catch((err) => {
       handleError(err, next);
