@@ -17,10 +17,12 @@ const {
   validationCreateUser,
   validationLogin,
 } = require('./middlewares/validations');
+app.use(cors);
 
+app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(requestLogger);
-app.use(cors);
+
 
 app.get('/crash-test', () => {
   setTimeout(() => {
