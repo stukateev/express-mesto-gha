@@ -97,13 +97,15 @@ const getCurrentUser = (req, res, next) => Users.findById(req.user._id)
 
 const login = (req, res, next) => {
   const { email, password } = req.body;
-  const { JWT_SECRET } = process.env;
+  const { NODE_ENV, JWT_SECRET } = process.env;
 
   return Users.findUserByCredentials(email, password)
     .then((user) => {
       const token = jwt.sign(
         { _id: user._id },
-        JWT_SECRET,
+        NODE_ENV === 'production'
+          ? JWT_SECRET
+          : '1ce9ec7dd68836579e4ffcb80e1ea34ae6e9707c6b36a0c247e501d339a5ec0b',
         { expiresIn: '7d' },
       );
       res
@@ -118,7 +120,6 @@ const login = (req, res, next) => {
       handleError(err, next);
     });
 };
-
 const clearCookie = (req, res, next) => {
   try {
     res.clearCookie('jwt').send({ message: 'Cookie clear' });
@@ -126,6 +127,8 @@ const clearCookie = (req, res, next) => {
     next(err);
   }
 }
+
+
 
 module.exports = {
   getUsers,
