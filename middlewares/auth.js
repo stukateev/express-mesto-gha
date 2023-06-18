@@ -6,7 +6,7 @@ module.exports = (req, res, next) => {
   const  { jwt } = req.cookies
 
   if(!jwt){
-    throw next(new UnauthorizedError('Authorization requiredff'))
+    throw next(new UnauthorizedError('Authorization required'))
   }
 
   const { NODE_ENV, JWT_SECRET } = process.env;
@@ -20,7 +20,7 @@ module.exports = (req, res, next) => {
         : '1ce9ec7dd68836579e4ffcb80e1ea34ae6e9707c6b36a0c247e501d339a5ec0b',
     );
   } catch (err) {
-    throw new UnauthorizedError('Authorization requireddd');
+    throw new UnauthorizedError('Authorization required');
   }
 
   req.user = payload;
