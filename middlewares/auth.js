@@ -10,6 +10,7 @@ module.exports = (req, res, next) => {
   }
   const { NODE_ENV, JWT_SECRET } = process.env;
 
+
   let payload;
   try {
     payload = jwt.verify(
