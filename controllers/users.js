@@ -114,7 +114,7 @@ const login = (req, res, next) => {
           httpOnly: true,
           sameSite: true,
         })
-        .send({ message: `Welcome back, ${user.name}` });
+        .json({ message: `Welcome back, ${user.name}` });
     })
     .catch((err) => {
       handleError(err, next);
