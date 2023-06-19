@@ -130,8 +130,6 @@ const clearCookie = (req, res, next) => {
   }
 }
 
-
-
 module.exports = {
   getUsers,
   getUser,
